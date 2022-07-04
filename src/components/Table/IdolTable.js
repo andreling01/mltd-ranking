@@ -64,7 +64,7 @@ export default function IdolTable(props) {
                 axios.get(request).then((result) => {
                     results.push(result);
                 }).catch((error) => {console.log(error);});
-                await sleep(200);
+                await sleep(250);
             };
 
             async function fetchAll() {
