@@ -7,7 +7,6 @@ export default function IdolTable(props) {
             return new Promise(resolve => setTimeout(resolve, milliseconds))
         }
 
-        const results = [];
         const initialIdolState = [];
 
         for (let i = 1; i <= 52; i++) {
@@ -114,32 +113,36 @@ export default function IdolTable(props) {
            <table className="table">
                <caption>数据读取自<a href="https://api.matsurihi.me/">api.matsurihi.me</a></caption>
                <thead>
-                <tr>
-                 <th>
-                     <button type="button" onClick={() => requestSort('id')}>
-                         名字
-                     </button>
-                 </th>
-                 <th>
-                     <button type="button" onClick={() => requestSort('first')}>
-                        1位
-                     </button>
-                 </th>
-                 <th>
-                     <button type="button" onClick={() => requestSort('hundred')}>
-                        100位
-                     </button>
-                 </th>
-                 <th>
-                     <button type="button" onClick={() => requestSort('thousand')}>
-                        1000位
-                     </button>
-                 </th>
-                 </tr>
+                    <tr>
+                        <th>
+                            顺位
+                        </th>
+                        <th>
+                            <button type="button" onClick={() => requestSort('id')}>
+                                名字
+                            </button>
+                        </th>
+                        <th>
+                            <button type="button" onClick={() => requestSort('first')}>
+                               1位
+                            </button>
+                        </th>
+                        <th>
+                            <button type="button" onClick={() => requestSort('hundred')}>
+                               100位
+                            </button>
+                        </th>
+                        <th>
+                            <button type="button" onClick={() => requestSort('thousand')}>
+                               1000位
+                            </button>
+                        </th>
+                    </tr>
                </thead>
                <tbody>
-                    {items.map(idol => (
+                    {items.map((idol, index)=> (
                         <tr key={idol.id}>
+                            <td>{index + 1}</td>
                             <td>{idol.name}</td>
                             <td>{idol.first}</td>
                             <td>{idol.hundred}</td>
