@@ -15,3 +15,20 @@ td {
 }
 
 tr:nth-child(even) {background-color: #f2f2f2;}
+
+thead th {
+  text-align: center;
+  border-bottom: 2px solid black;
+}
+
+thead th.ascending::after {
+  content: '▾';
+  display: inline-block;
+  margin-left: 1em;
+}
+
+thead th.descending::after {
+  content: '▴';
+  display: inline-block;
+  margin-left: 1em;
+}

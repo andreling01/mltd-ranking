@@ -50,10 +50,17 @@ export default function IdolTable(props) {
                 setSortConfig({ key, direction });
             }
 
-            return { items: sortedItems, requestSort };
+            return { items: sortedItems, requestSort, sortConfig };
         }
 
-        const { items, requestSort } = useSortableData(idols);
+        const { items, requestSort, sortConfig } = useSortableData(idols);
+
+        const getClassNamesFor = (name) => {
+            if (!sortConfig) {
+                return;
+            }
+            return sortConfig.key === name ? sortConfig.direction : undefined;
+        };
 
 
         useEffect(() => {
@@ -111,19 +118,19 @@ export default function IdolTable(props) {
                         <th>
                             顺位
                         </th>
-                        <th onClick={() => requestSort('id')}>
+                        <th onClick={() => requestSort('id')} className={getClassNamesFor('id')}>
                             姓名
                         </th>
-                        <th onClick={() => requestSort('first')}>
+                        <th onClick={() => requestSort('first')} className={getClassNamesFor('first')}>
                             1位
                         </th>
-                        <th onClick={() => requestSort('ten')}>
+                        <th onClick={() => requestSort('ten')} className={getClassNamesFor('ten')}>
                             10位
                         </th>
-                        <th onClick={() => requestSort('hundred')}>
+                        <th onClick={() => requestSort('hundred')} className={getClassNamesFor('hundred')}>
                             100位
                         </th>
-                        <th onClick={() => requestSort('thousand')}>
+                        <th onClick={() => requestSort('thousand')} className={getClassNamesFor('thousand')}>
                             1000位
                         </th>
                     </tr>
