@@ -4,4 +4,14 @@
 
 .table {
     margin: auto;
+    width: 100%;
+    max-width:500px;
+    border-collapse: collapse;
 }
+
+td {
+    text-align: center;
+    vertical-align: middle;
+}
+
+tr:nth-child(even) {background-color: #f2f2f2;}

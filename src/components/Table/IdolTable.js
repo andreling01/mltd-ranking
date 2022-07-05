@@ -111,30 +111,20 @@ export default function IdolTable(props) {
                         <th>
                             顺位
                         </th>
-                        <th>
-                            <button type="button" onClick={() => requestSort('id')}>
-                                姓名
-                            </button>
+                        <th onClick={() => requestSort('id')}>
+                            姓名
                         </th>
-                        <th>
-                            <button type="button" onClick={() => requestSort('first')}>
-                               1位
-                            </button>
+                        <th onClick={() => requestSort('first')}>
+                            1位
                         </th>
-                        <th>
-                            <button type="button" onClick={() => requestSort('ten')}>
-                               10位
-                            </button>
+                        <th onClick={() => requestSort('ten')}>
+                            10位
                         </th>
-                        <th>
-                            <button type="button" onClick={() => requestSort('hundred')}>
-                               100位
-                            </button>
+                        <th onClick={() => requestSort('hundred')}>
+                            100位
                         </th>
-                        <th>
-                            <button type="button" onClick={() => requestSort('thousand')}>
-                               1000位
-                            </button>
+                        <th onClick={() => requestSort('thousand')}>
+                            1000位
                         </th>
                     </tr>
                </thead>
@@ -143,10 +133,10 @@ export default function IdolTable(props) {
                         <tr key={idol.id}>
                             <td>{index + 1}</td>
                             <td>{idol.name}</td>
-                            <td>{idol.first}</td>
-                            <td>{idol.ten}</td>
-                            <td>{idol.hundred}</td>
-                            <td>{idol.thousand}</td>
+                            <td>{idol.first.toLocaleString()}</td>
+                            <td>{idol.ten.toLocaleString()}</td>
+                            <td>{idol.hundred.toLocaleString()}</td>
+                            <td>{idol.thousand.toLocaleString()}</td>
                         </tr>
                     ))}
                </tbody>
