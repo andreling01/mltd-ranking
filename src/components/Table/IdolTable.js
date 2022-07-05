@@ -14,6 +14,7 @@ export default function IdolTable(props) {
                 id: i,
                 name: idolMapping[i],
                 first: 0,
+                ten: 0,
                 hundred: 0,
                 thousand: 0
             };
@@ -57,54 +58,47 @@ export default function IdolTable(props) {
 
         useEffect(() => {
             let baseUrl = "https://api.matsurihi.me/mltd/v1/events/241/rankings/logs/idolPoint/"
-            let query = "/1,100,1000";
-            let results = [];
+            let query = "/1,10,100,1000";
             async function fetchData(id) {
                 let request = baseUrl + id + query;
-                axios.get(request).then((result) => {
-                    results.push(result);
-                }).catch((error) => {console.log(error);});
-                await sleep(250);
+                const response = await axios.get(request).catch((error) => {console.log(error);});
+                await sleep(200);
+                return response.data;
             };
 
             async function fetchAll() {
-              for (let i = 1; i <= 52; i++) {
-                await fetchData(i);
-              }
-            }
-
-
-            async function build() {
-                await fetchAll();
-                for (let i = 0; i < 52; i++) {
-                    let first,hundred, thousand = 0;
-                    if (results[i].data[0]) {
-                        first = results[i].data[0].data[results[i].data[0].data.length - 1].score;
+                for (let i = 1; i <= 52; i++) {
+                    const result = await fetchData(i);
+                    let first, ten, hundred, thousand = 0;
+                    if (result[0]) {
+                        first = result[0].data[result[0].data.length - 1].score;
                     }
 
-                    if (results[i].data[1]) {
-                        hundred = results[i].data[1].data[results[i].data[1].data.length - 1].score;
+                    if (result[1]) {
+                        ten = result[1].data[result[1].data.length - 1].score;
                     }
 
-                    if (results[i].data[2]) {
-                        thousand = results[i].data[2].data[results[i].data[2].data.length - 1].score;
+                    if (result[2]) {
+                        hundred = result[2].data[result[2].data.length - 1].score;
+                    }
+
+                    if (result[3]) {
+                        thousand = result[3].data[result[3].data.length - 1].score;
                     }
 
                     setIdols(current =>
-                      current.map(obj => {
-                        if (obj.id === i + 1) {
-                          return {...obj, first : first, hundred: hundred, thousand: thousand };
-                        }
+                        current.map(obj => {
+                            if (obj.id === i ) {
+                                return {...obj, first : first, ten: ten, hundred: hundred, thousand: thousand };
+                            }
 
-                        return obj;
-                      }),
+                            return obj;
+                        }),
                     );
                 }
-
-                console.log(idols);
             }
 
-            build();
+            fetchAll();
         },[]);
 
 
@@ -119,12 +113,17 @@ export default function IdolTable(props) {
                         </th>
                         <th>
                             <button type="button" onClick={() => requestSort('id')}>
-                                名字
+                                姓名
                             </button>
                         </th>
                         <th>
                             <button type="button" onClick={() => requestSort('first')}>
                                1位
+                            </button>
+                        </th>
+                        <th>
+                            <button type="button" onClick={() => requestSort('ten')}>
+                               10位
                             </button>
                         </th>
                         <th>
@@ -145,6 +144,7 @@ export default function IdolTable(props) {
                             <td>{index + 1}</td>
                             <td>{idol.name}</td>
                             <td>{idol.first}</td>
+                            <td>{idol.ten}</td>
                             <td>{idol.hundred}</td>
                             <td>{idol.thousand}</td>
                         </tr>
