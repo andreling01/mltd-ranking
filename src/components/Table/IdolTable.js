@@ -1,11 +1,15 @@
 import React, { useState, useEffect, useMemo } from "react"
 import idolMapping from "../../idolMapping.json"
 import axios from 'axios';
+import axiosRetry from 'axios-retry';
+
+axiosRetry(axios, { retries: 5,
+                    retryDelay: axiosRetry.exponentialDelay,
+                    retryCondition: (error) => {
+                      return error.response.status === 429
+                    }});
 
 export default function IdolTable(props) {
-        const sleep = (milliseconds) => {
-            return new Promise(resolve => setTimeout(resolve, milliseconds))
-        }
 
         const initialIdolState = [];
 
@@ -73,7 +77,6 @@ export default function IdolTable(props) {
             async function fetchData(id) {
                 let request = baseUrl + id + query;
                 const response = await axios.get(request).catch((error) => {console.log(error);});
-                await sleep(200);
                 return response.data;
             };
 
