@@ -21,6 +21,10 @@
     text-align: center;
 }
 
+.small-font {
+    font-size: 8px;
+}
+
 .table {
     margin: auto;
     width: 100%;
