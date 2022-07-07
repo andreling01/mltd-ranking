@@ -163,10 +163,18 @@ export default function IdolTable(props) {
                <tbody>
                     {items.map((idol, index)=> (
                         <tr key={idol.id}>
-                            <td>{index + 1}</td>
-                            <td>{idol.name}</td>
                             <td>
-                                <span>
+                                <span className="big-font">
+                                    {index + 1}
+                                </span>
+                            </td>
+                            <td>
+                                <span className="big-font">
+                                    {idol.name}
+                                </span>
+                            </td>
+                            <td>
+                                <span className="emphasis-font">
                                     {idol.first.toLocaleString()}
                                 </span>
                                 <br />
@@ -175,7 +183,7 @@ export default function IdolTable(props) {
                                 </span>
                             </td>
                             <td>
-                                <span>
+                                <span className="emphasis-font">
                                     {idol.ten.toLocaleString()}
                                 </span>
                                 <br />
@@ -184,7 +192,7 @@ export default function IdolTable(props) {
                                 </span>
                             </td>
                             <td>
-                                <span>
+                                <span className="emphasis-font">
                                     {idol.hundred.toLocaleString()}
                                 </span>
                                 <br />
@@ -193,7 +201,7 @@ export default function IdolTable(props) {
                                 </span>
                             </td>
                             <td>
-                                <span>
+                                <span className="emphasis-font">
                                     {idol.thousand.toLocaleString()}
                                 </span>
                                 <br />

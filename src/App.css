@@ -10,20 +10,46 @@
         background-blend-mode: lighten;
     }
 
-    tr:nth-child(even) {background-color: #d4d4d4;}
+    .big-font {
+        font-size:18px;
+    }
+
+    .emphasis-font {
+        font-size: 16px;
+        font-weight: 700;
+        color: #2E407A;
+    }
+
+    .small-font {
+        font-size: 8px;
+    }
 }
 
 @media (max-width: 640px) {
-    tr:nth-child(even) {background-color: #f2f2f2;}
+    .big-font {
+        font-size:14px;
+    }
+
+    .emphasis-font {
+        font-size: 13px;
+        font-weight: 700;
+        color: #2E407A;
+    }
+
+    .small-font {
+        font-size: 7px;
+    }
 }
 
-.text-cetner {
+tr:nth-child(odd) {background-color: white;}
+tr:nth-child(even) {background-color: #f2f2f2;}
+
+
+.text-center {
     text-align: center;
 }
 
-.small-font {
-    font-size: 8px;
-}
+
 
 .table {
     margin: auto;
