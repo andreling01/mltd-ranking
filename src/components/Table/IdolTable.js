@@ -70,6 +70,20 @@ export default function IdolTable(props) {
             return sortConfig.key === name ? sortConfig.direction : undefined;
         };
 
+        const parseScoreData = (result) => {
+            let score, velocity = 0;
+            if (result) {
+                let scoreArray = result.data;
+                score = scoreArray[scoreArray.length - 1].score;
+                if (scoreArray.length > 48) {
+                    velocity = score - scoreArray[scoreArray.length - 49].score;
+                } else {
+                    velocity = score;
+                }
+            }
+
+            return  [score, velocity];
+        }
 
         useEffect(() => {
             let baseUrl = "https://api.matsurihi.me/mltd/v1/events/241/rankings/logs/idolPoint/"
@@ -84,41 +98,14 @@ export default function IdolTable(props) {
                 for (let i = 1; i <= 52; i++) {
                     const result = await fetchData(i);
                     let first, firstVelocity, ten, tenVelocity, hundred, hundredVelocity, thousand, thousandVelocity = 0;
-                    if (result[0]) {
-                        first = result[0].data[result[0].data.length - 1].score;
-                        if (result[0].data.length > 48) {
-                            firstVelocity = result[0].data[result[0].data.length - 1].score - result[0].data[result[0].data.length - 49].score;
-                        } else {
-                            firstVelocity = result[0].data[result[0].data.length - 1].score;
-                        }
-                    }
 
-                    if (result[1]) {
-                        ten = result[1].data[result[1].data.length - 1].score;
-                        if (result[1].data.length > 48) {
-                            tenVelocity = result[1].data[result[1].data.length - 1].score - result[1].data[result[1].data.length - 49].score;
-                        } else {
-                            tenVelocity = result[1].data[result[1].data.length - 1].score;
-                        }
-                    }
+                    [first, firstVelocity] = parseScoreData(result[0]);
 
-                    if (result[2]) {
-                        hundred = result[2].data[result[2].data.length - 1].score;
-                        if (result[2].data.length > 48) {
-                            hundredVelocity = result[2].data[result[2].data.length - 1].score - result[2].data[result[2].data.length - 49].score;
-                        } else {
-                            hundredVelocity = result[2].data[result[2].data.length - 1].score;
-                        }
-                    }
+                    [ten, tenVelocity] = parseScoreData(result[1]);
 
-                    if (result[3]) {
-                        thousand = result[3].data[result[3].data.length - 1].score;
-                        if (result[3].data.length > 48) {
-                            thousandVelocity = result[3].data[result[3].data.length - 1].score - result[3].data[result[3].data.length - 49].score;
-                        } else {
-                            thousandVelocity = result[3].data[result[3].data.length - 1].score;
-                        }
-                    }
+                    [hundred, hundredVelocity] = parseScoreData(result[2]);
+
+                    [thousand, thousandVelocity] = parseScoreData(result[3]);
 
                     setIdols(current =>
                         current.map(obj => {
