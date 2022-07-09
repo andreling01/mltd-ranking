@@ -18,13 +18,17 @@ export default function IdolTable(props) {
                 id: i,
                 name: idolMapping[i],
                 first: 0,
-                firstVelocity: 0,
+                firstVelocityPerDay: 0,
                 ten: 0,
-                tenVelocity: 0,
+                tenVelocityPerDay: 0,
                 hundred: 0,
-                hundredVelocity: 0,
+                hundredVelocityPerDay: 0,
+                hundredVelocityPerHour: 0,
+                hundredVelocityPerHalfHour: 0,
                 thousand: 0,
-                thousandVelocity: 0
+                thousandVelocityPerDay: 0,
+                thousandVelocityPerHour: 0,
+                thousandVelocityPerHalfHour: 0
             };
             initialIdolState.push(newIdol);
         }
@@ -71,18 +75,31 @@ export default function IdolTable(props) {
         };
 
         const parseScoreData = (result) => {
-            let score, velocity = 0;
+            let score, velocityPerDay, velocityPerHalfHour, velocityPerHour = 0;
             if (result) {
                 let scoreArray = result.data;
                 score = scoreArray[scoreArray.length - 1].score;
+
                 if (scoreArray.length > 48) {
-                    velocity = score - scoreArray[scoreArray.length - 49].score;
+                    velocityPerDay = score - scoreArray[scoreArray.length - 49].score;
                 } else {
-                    velocity = score;
+                    velocityPerDay = score;
+                }
+
+                if (scoreArray.length > 1) {
+                    velocityPerHalfHour = score - scoreArray[scoreArray.length - 2].score;
+                } else {
+                    velocityPerHalfHour = score;
+                }
+
+                if (scoreArray.length > 2) {
+                    velocityPerHour = score - scoreArray[scoreArray.length - 3].score;
+                } else {
+                    velocityPerHour = score;
                 }
             }
 
-            return  [score, velocity];
+            return  [score, velocityPerDay, velocityPerHalfHour, velocityPerHour];
         }
 
         useEffect(() => {
@@ -97,22 +114,35 @@ export default function IdolTable(props) {
             async function fetchAll() {
                 for (let i = 1; i <= 52; i++) {
                     const result = await fetchData(i);
-                    let first, firstVelocity, ten, tenVelocity, hundred, hundredVelocity, thousand, thousandVelocity = 0;
+                    let first, firstVelocityPerDay, ten, tenVelocityPerDay,
+                    hundred,hundredVelocityPerDay, hundredVelocityPerHalfHour, hundredVelocityPerHour,
+                    thousand, thousandVelocityPerDay, thousandVelocityPerHalfHour, thousandVelocityPerHour = 0;
 
-                    [first, firstVelocity] = parseScoreData(result[0]);
+                    [first, firstVelocityPerDay] = parseScoreData(result[0]);
 
-                    [ten, tenVelocity] = parseScoreData(result[1]);
+                    [ten, tenVelocityPerDay] = parseScoreData(result[1]);
 
-                    [hundred, hundredVelocity] = parseScoreData(result[2]);
+                    [hundred, hundredVelocityPerDay, hundredVelocityPerHalfHour, hundredVelocityPerHour] = parseScoreData(result[2]);
 
-                    [thousand, thousandVelocity] = parseScoreData(result[3]);
+                    [thousand, thousandVelocityPerDay, thousandVelocityPerHalfHour, thousandVelocityPerHour] = parseScoreData(result[3]);
 
                     setIdols(current =>
                         current.map(obj => {
                             if (obj.id === i ) {
-                                return {...obj, first : first, firstVelocity: firstVelocity,
-                                ten: ten, tenVelocity: tenVelocity, hundred: hundred, hundredVelocity: hundredVelocity,
-                                thousand: thousand, thousandVelocity: thousandVelocity };
+                                return {...obj,
+                                    first : first,
+                                    firstVelocityPerDay: firstVelocityPerDay,
+                                    ten: ten,
+                                    tenVelocityPerDay: tenVelocityPerDay,
+                                    hundred: hundred,
+                                    hundredVelocityPerDay: hundredVelocityPerDay,
+                                    hundredVelocityPerHalfHour: hundredVelocityPerHalfHour,
+                                    hundredVelocityPerHour: hundredVelocityPerHour,
+                                    thousand: thousand,
+                                    thousandVelocityPerDay: thousandVelocityPerDay,
+                                    thousandVelocityPerHalfHour: thousandVelocityPerHalfHour,
+                                    thousandVelocityPerHour: thousandVelocityPerHour
+                                };
                             }
                             return obj;
                         }),
@@ -127,7 +157,6 @@ export default function IdolTable(props) {
 
        return (
            <table className="table">
-               <caption>数据读取自<a href="https://api.matsurihi.me/">api.matsurihi.me</a></caption>
                <thead>
                     <tr>
                         <th>
@@ -145,40 +174,52 @@ export default function IdolTable(props) {
                         <th onClick={() => requestSort('hundred')} className={getClassNamesFor('hundred')}>
                             100位
                         </th>
+                        <th onClick={() => requestSort('hundredVelocityPerHalfHour')} className={getClassNamesFor('hundredVelocityPerHalfHour')}>
+                            -30m
+                        </th>
+                        <th onClick={() => requestSort('hundredVelocityPerHour')} className={getClassNamesFor('hundredVelocityPerHour')}>
+                            -1h
+                        </th>
                         <th onClick={() => requestSort('thousand')} className={getClassNamesFor('thousand')}>
                             1000位
+                        </th>
+                        <th onClick={() => requestSort('thousandVelocityPerHalfHour')} className={getClassNamesFor('thousandVelocityPerHalfHour')}>
+                            -30m
+                        </th>
+                        <th onClick={() => requestSort('thousandVelocityPerHour')} className={getClassNamesFor('thousandVelocityPerHour')}>
+                            -1h
                         </th>
                     </tr>
                </thead>
                <tbody>
                     {items.map((idol, index)=> (
                         <tr key={idol.id}>
-                            <td>
+                            <td className="right-border">
                                 <span className="big-font">
                                     {index + 1}
                                 </span>
                             </td>
-                            <td>
+                            <td className="right-border name-column">
                                 <span className="big-font">
                                     {idol.name}
                                 </span>
                             </td>
-                            <td>
+                            <td className="right-border">
                                 <span className="emphasis-font">
                                     {idol.first.toLocaleString()}
                                 </span>
                                 <br />
-                                <span className="small-font">
-                                    (+{idol.firstVelocity.toLocaleString()})
+                                <span className="small-font velocity-font">
+                                    (+{idol.firstVelocityPerDay.toLocaleString()})
                                 </span>
                             </td>
-                            <td>
+                            <td className="right-border">
                                 <span className="emphasis-font">
                                     {idol.ten.toLocaleString()}
                                 </span>
                                 <br />
-                                <span className="small-font">
-                                    (+{idol.tenVelocity.toLocaleString()})
+                                <span className="small-font velocity-font">
+                                    (+{idol.tenVelocityPerDay.toLocaleString()})
                                 </span>
                             </td>
                             <td>
@@ -186,8 +227,18 @@ export default function IdolTable(props) {
                                     {idol.hundred.toLocaleString()}
                                 </span>
                                 <br />
-                                <span className="small-font">
-                                    (+{idol.hundredVelocity.toLocaleString()})
+                                <span className="small-font velocity-font">
+                                    (+{idol.hundredVelocityPerDay.toLocaleString()})
+                                </span>
+                            </td>
+                            <td>
+                                <span className="velocity-font">
+                                    (+{idol.hundredVelocityPerHalfHour.toLocaleString()})
+                                </span>
+                            </td>
+                            <td className="right-border">
+                                <span className="velocity-font">
+                                    (+{idol.hundredVelocityPerHour.toLocaleString()})
                                 </span>
                             </td>
                             <td>
@@ -195,8 +246,18 @@ export default function IdolTable(props) {
                                     {idol.thousand.toLocaleString()}
                                 </span>
                                 <br />
-                                <span className="small-font">
-                                    (+{idol.thousandVelocity.toLocaleString()})
+                                <span className="small-font velocity-font">
+                                    (+{idol.thousandVelocityPerDay.toLocaleString()})
+                                </span>
+                            </td>
+                            <td>
+                                <span className="velocity-font">
+                                    (+{idol.thousandVelocityPerHalfHour.toLocaleString()})
+                                </span>
+                            </td>
+                            <td>
+                                <span className="velocity-font">
+                                    (+{idol.thousandVelocityPerHour.toLocaleString()})
                                 </span>
                             </td>
                         </tr>

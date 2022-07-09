@@ -26,12 +26,19 @@
 }
 
 @media (max-width: 640px) {
+    .table {
+        display: block;
+    }
+
+    span {
+        font-size: 13px;
+    }
+
     .big-font {
         font-size:14px;
     }
 
     .emphasis-font {
-        font-size: 13px;
         font-weight: 700;
         color: #2E407A;
     }
@@ -49,18 +56,30 @@ tr:nth-child(even) {background-color: #f2f2f2;}
     text-align: center;
 }
 
+.right-border {
+    border-right: 1px solid black;
+}
 
+.velocity-font {
+    color: #424242;
+}
+
+.name-column {
+    min-width: 80px;
+}
 
 .table {
     margin: auto;
     width: 100%;
-    max-width:500px;
+    max-width:1000px;
     border-collapse: collapse;
+    overflow-x: auto;
 }
 
 td {
     text-align: center;
     vertical-align: middle;
+    min-width: 40px;
 }
 
 thead th {
