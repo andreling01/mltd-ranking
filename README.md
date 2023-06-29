@@ -1,9 +1,9 @@
 # mltd-ranking
-这是一个为《偶像大师 百万现场 剧场时光》五周年活动所写的app，目的是为了清晰的得知每个偶像的分数线及排名。目前可以根据第1，10，100，1000名四档进行排序。
+这是一个为《偶像大师 百万现场 剧场时光》六周年活动所写的app，目的是为了清晰的得知每个偶像的分数线及排名。目前可以根据第1，10，100，1000名四档进行排序。
 
-此App数据基于[matsurihi.me](https://api.matsurihi.me/) 的API，但由于该API有访问限制并且无法处理多线程任务，因此在数据读取时选择了单个读取并Sleep的方式来避免Error Code 429。
+此App数据基于[matsurihi.me](https://api.matsurihi.me/) 的API，但由于该API有访问限制并且无法处理多线程任务，因此在数据读取时选择了async单个读取的方式来避免Error Code 429。
 
-由于时突然觉得写这个App，因此各个方面都很粗糙。之后会视情况进行改进（反正也要明年这会儿才会再用了XD）。
+由于是突然觉得写这个App，因此各个方面都很粗糙。之后会视情况进行改进（反正也要明年这会儿才会再用了XD）。
 
 # 以下内容为Create React App的教程
 ## Getting Started with Create React App

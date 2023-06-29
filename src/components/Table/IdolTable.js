@@ -75,27 +75,30 @@ export default function IdolTable(props) {
         };
 
         const parseScoreData = (result) => {
-            let score, velocityPerDay, velocityPerHalfHour, velocityPerHour = 0;
+            let score = 0, velocityPerDay = 0, velocityPerHalfHour = 0, velocityPerHour = 0;
+            console.log(result);
             if (result) {
                 let scoreArray = result.data;
-                score = scoreArray[scoreArray.length - 1].score;
+                if (scoreArray.length > 0) {
+                    score = scoreArray[scoreArray.length - 1].score;
 
-                if (scoreArray.length > 48) {
-                    velocityPerDay = score - scoreArray[scoreArray.length - 49].score;
-                } else {
-                    velocityPerDay = score;
-                }
+                    if (scoreArray.length > 48) {
+                        velocityPerDay = score - scoreArray[scoreArray.length - 49].score;
+                    } else {
+                        velocityPerDay = score;
+                    }
 
-                if (scoreArray.length > 1) {
-                    velocityPerHalfHour = score - scoreArray[scoreArray.length - 2].score;
-                } else {
-                    velocityPerHalfHour = score;
-                }
+                    if (scoreArray.length > 1) {
+                        velocityPerHalfHour = score - scoreArray[scoreArray.length - 2].score;
+                    } else {
+                        velocityPerHalfHour = score;
+                    }
 
-                if (scoreArray.length > 2) {
-                    velocityPerHour = score - scoreArray[scoreArray.length - 3].score;
-                } else {
-                    velocityPerHour = score;
+                    if (scoreArray.length > 2) {
+                        velocityPerHour = score - scoreArray[scoreArray.length - 3].score;
+                    } else {
+                        velocityPerHour = score;
+                    }
                 }
             }
 
@@ -103,8 +106,8 @@ export default function IdolTable(props) {
         }
 
         useEffect(() => {
-            let baseUrl = "https://api.matsurihi.me/mltd/v1/events/241/rankings/logs/idolPoint/"
-            let query = "/1,10,100,1000";
+            let baseUrl = "https://api.matsurihi.me/api/mltd/v2/events/290/rankings/idolPoint/"
+            let query = "/logs/1,10,100,1000";
             async function fetchData(id) {
                 let request = baseUrl + id + query;
                 const response = await axios.get(request).catch((error) => {console.log(error);});
@@ -116,7 +119,7 @@ export default function IdolTable(props) {
                     const result = await fetchData(i);
                     let first, firstVelocityPerDay, ten, tenVelocityPerDay,
                     hundred,hundredVelocityPerDay, hundredVelocityPerHalfHour, hundredVelocityPerHour,
-                    thousand, thousandVelocityPerDay, thousandVelocityPerHalfHour, thousandVelocityPerHour = 0;
+                    thousand, thousandVelocityPerDay, thousandVelocityPerHalfHour, thousandVelocityPerHour;
 
                     [first, firstVelocityPerDay] = parseScoreData(result[0]);
 
