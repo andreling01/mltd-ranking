@@ -106,7 +106,7 @@ export default function IdolTable(props) {
         }
 
         useEffect(() => {
-            let baseUrl = "https://api.matsurihi.me/api/mltd/v2/events/290/rankings/idolPoint/"
+            let baseUrl = "https://api.matsurihi.me/api/mltd/v2/events/339/rankings/idolPoint/"
             let query = "/logs/1,10,100,1000";
             async function fetchData(id) {
                 let request = baseUrl + id + query;
