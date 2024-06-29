@@ -83,19 +83,19 @@ export default function IdolTable(props) {
                     score = scoreArray[scoreArray.length - 1].score;
 
                     if (scoreArray.length > 48) {
-                        velocityPerDay = score - scoreArray[scoreArray.length - 289].score;
+                        velocityPerDay = score - scoreArray[scoreArray.length - 49].score;
                     } else {
                         velocityPerDay = score;
                     }
 
                     if (scoreArray.length > 1) {
-                        velocityPerHalfHour = score - scoreArray[scoreArray.length - 7].score;
+                        velocityPerHalfHour = score - scoreArray[scoreArray.length - 2].score;
                     } else {
                         velocityPerHalfHour = score;
                     }
 
                     if (scoreArray.length > 2) {
-                        velocityPerHour = score - scoreArray[scoreArray.length - 13].score;
+                        velocityPerHour = score - scoreArray[scoreArray.length - 3].score;
                     } else {
                         velocityPerHour = score;
                     }
